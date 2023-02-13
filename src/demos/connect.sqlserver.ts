@@ -1,6 +1,5 @@
 import { DatabaseConfig } from '../../src/types/database_config';
 
-import ConnectionSqlServer from '../../src/infra/connection.sql.server';
 import ConnectionSybase from '../../src/infra/connection.sybase';
 import Database from '../../src/infra/database';
 
@@ -13,23 +12,14 @@ describe('test conect database ', () => {
     port: 1433,
   };
 
-  const configSybase: DatabaseConfig = {
-    user: 'dba',
-    password: 'sql',
-    dbname: 'Turatti',
-    host: '127.0.0.1',
-    port: 2639,
-  };
-
   //TODO: CREATE DATA DRIVER
-  const connectionSqlServer = new ConnectionSqlServer(configSqlServer);
-  const connectionSybase = new ConnectionSybase(configSybase);
+  const connectionSybase = new ConnectionSybase(configSqlServer);
 
   //TODO: DATABASE INJECT DRIVER CONNECTION
-  const db = new Database(connectionSqlServer);
+  const db = new Database(connectionSybase);
 
   it('database select', async () => {
-    const result = await db.query('SELECT TOP 10 * FROM Cliente');
+    const result = await db.query('SELECT * FROM Cliente');
     console.log(result);
   });
 });

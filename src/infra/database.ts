@@ -5,23 +5,17 @@ import ConnectionSybase from './connection.sybase';
 export default class Database<T> {
   constructor(private database: ConnectionBaseSqlContract<T>) {}
 
-  public async select<R>(sql: string): Promise<Array<R>> {
+  public async query<R>(command: string): Promise<Array<R>> {
+    let pool: any = undefined;
+
     try {
-      let result: [] = [];
-      const pool = (await this.database.getConnection()) as any;
-      if (this.database instanceof ConnectionSqlServer) {
-        result = await pool.request().query(sql);
-        this.database.closeConnection(pool);
-      }
-
-      if (this.database instanceof ConnectionSybase) {
-        result = await pool.request().query(sql);
-        this.database.closeConnection(pool);
-      }
-
+      pool = await this.database.getConnection();
+      const result = await pool.request().query(command);
       return result;
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      if (pool) this.database.closeConnection(pool);
     }
   }
 }

@@ -26,8 +26,9 @@ describe('test conect database sql-server', () => {
 
   it('data base version', async () => {
     const pool = await connection.getConnection();
-    const result = await pool.request().query('SELECT @@VERSION');
-    expect(result.recordset[0]['']).toContain('Microsoft SQL Server');
+    const result = await pool.request().query('SELECT @@VERSION AS version');
+    const data = { ...result[0] };
+    expect(data.version).toContain('Microsoft SQL Server');
     connection.closeConnection(pool);
   });
 });

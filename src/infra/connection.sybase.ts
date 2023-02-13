@@ -8,25 +8,12 @@ export default class ConnectionSybase implements ConnectionBaseSqlContract<Conne
 
   async getConnection(): Promise<ConnectionSybaseDriver> {
     try {
-      const conn = this.getConnectionConfig(this.config);
-      const connect = new ConnectionSybaseDriver(conn);
+      const connect = new ConnectionSybaseDriver(this.config);
       const pool = await connect.connect();
       return pool;
     } catch (error: any) {
       throw new Error(error);
     }
-  }
-
-  private getConnectionConfig(confg: DatabaseConfig): any {
-    return {
-      name: 'main',
-      host: confg.host,
-      port: confg.port,
-      dbname: confg.dbname,
-      username: confg.user,
-      password: confg.password,
-      logTiming: true,
-    };
   }
 
   closeConnection(pool: ConnectionSybaseDriver): void {

@@ -1,8 +1,8 @@
 {
   "name": "repository-data7",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
-  "main": "./src/main.js",
+  "main": "./dist/src/main.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/main.ts",
     "dev:nodemon": "cls && nodemon --watch 'src/' --exec 'ts-node --files --transpile-only src/maints' -e ts",
